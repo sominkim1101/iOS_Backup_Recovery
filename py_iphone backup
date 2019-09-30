@@ -1,0 +1,345 @@
+import sqlite3
+import os
+import sys
+import shutil
+from PIL import Image
+import tkinter as tk
+from tkinter import simpledialog
+import ctypes
+application_window = tk.Tk()
+
+while True: 
+
+    # the db and table that i set:
+        # 992df473bbb9e132f4b3b6e4d33f72171e97bc7a voimall
+        # e74113c185fd8297e140cfcf9c99436c5cc06b57  hstory ==> History_itmes and history_visit
+        # 3d0d7e5fb2ce288813306e4d4636395e047a3d28 sms ==> massage
+    # the Hashes that i can open:
+        # .sqlitedb , .db , .sqlite , .log , .storedata and.sqlite3
+
+    # Open the Manifest.db (C:\\Users\\peace_94\\Desktop\\folder\\Hashes\\Manifest.db)
+    uerInput1 = simpledialog.askstring(
+        "IPhone Backup", "Enter Manifest.db path file: ", parent=application_window)
+    conn = sqlite3.connect(uerInput1)
+    c = conn.cursor()
+
+    # select all db which is in relativepath (Hashes)
+    res1 = conn.execute(
+        "SELECT fileID, relativePath from Files where relativePath like'%.db' OR relativePath like '%.sql%' OR relativePath like '%.log%'")
+    for al1 in res1:
+        print(al1[0] + " ===> " + al1[1])
+
+        """
+        for i, al1 in enumerate(res1):
+        print(i,")" , al1[0] + " ===> ", al1[1])
+        """
+
+    # the user will type one of the hashes that print on the secreen to search about it (31bb7ba8914766d4ba40d6dfb6113c8b614be442)
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    userInput2 = simpledialog.askstring(
+        "IPhone Backup", "Enter one of the hashes that printed on screen: ", parent=application_window)
+    for root, dirs, files in os.walk(dir_path):
+        for file in files:
+            if file.endswith(str(userInput2)):
+                print(root+'/'+str(file))
+
+    # user will enter the path in order to:
+        # create a new .db from the hash that selcted
+        # open the new .db
+    userInput3 = simpledialog.askstring(
+        "IPhone Backup", "Enter the root (path) that printed on the screen: ", parent=application_window)
+    userInput4 = simpledialog.askstring(
+        "IPhone Backup", "Enter own root and FileName following with .db: ", parent=application_window)
+    shutil.copyfile(userInput3, userInput4)
+    uerInput5 = simpledialog.askstring(
+        "IPhone Backup", "Enter your new file: ", parent=application_window)
+    conn = sqlite3.connect(uerInput5)
+    c = conn.cursor()
+
+    # select all .sqlite which is in relativepath(Hashes)
+    res = conn.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    for al in res:
+        print(al[0])
+
+    # open spicific table as user input
+    tablename = simpledialog.askstring(
+        "IPhone Backup", "Enter one of the table name that printed on the screen: ", parent=application_window)
+    if tablename == "ABPerson":
+        ree = conn.execute("SELECT * FROM ABPerson")
+        for x in ree:
+            print(x)
+    elif tablename == "ClientCursor":
+        ree = conn.execute("SELECT * FROM ClientCursor")
+        for x in ree:
+            print(x)
+    elif tablename == "_SqliteDatabaseProperties":
+        ree = conn.execute("SELECT * FROM _SqliteDatabaseProperties")
+        for x in ree:
+            print(x)
+    elif tablename == "ABStore":
+        ree = conn.execute("SELECT * FROM ABStore")
+        for x in ree:
+            print(x)
+    elif tablename == "sqlite_sequence":
+        ree = conn.execute("SELECT * FROM sqlite_sequence")
+        for x in ree:
+            print(x)
+    elif tablename == "ABPersonChanges":
+        ree = conn.execute("SELECT * FROM ABPersonChanges")
+        for x in ree:
+            print(x)
+    elif tablename == "ABPersonLink":
+        ree = conn.execute("SELECT * FROM ABPersonLink")
+        for x in ree:
+            print(x)
+    elif tablename == "ABPersonSearchKey":
+        ree = conn.execute("SELECT * FROM ABPersonSearchKey")
+        for x in ree:
+            print(x)
+    elif tablename == "ABGroup":
+        ree = conn.execute("SELECT * FROM ABGroup")
+        for x in ree:
+            print(x)
+    elif tablename == "ABGroupChanges":
+        ree = conn.execute("SELECT * FROM ABGroupChanges")
+        for x in ree:
+            print(x)
+    elif tablename == "ABAccount":
+        ree = conn.execute("SELECT * FROM ABAccount")
+        for x in ree:
+            print(x)
+    elif tablename == "ABGroupMembers":
+        ree = conn.execute("SELECT * FROM ABGroupMembers")
+        for x in ree:
+            print(x)
+    elif tablename == "ABMultiValue":
+        ree = conn.execute("SELECT * FROM ABMultiValue")
+        for x in ree:
+            print(x)
+    elif tablename == "ABMultiValueLabel":
+        ree = conn.execute("SELECT * FROM ABMultiValueLabel")
+        for x in ree:
+            print(x)
+    elif tablename == "ABMultiValueEntry":
+        ree = conn.execute("SELECT * FROM ABMultiValueEntry")
+        for x in ree:
+            print(x)
+    elif tablename == "ABMultiValueEntryKey":
+        ree = conn.execute("SELECT * FROM ABMultiValueEntryKey")
+        for x in ree:
+            print(x)
+    elif tablename == "ABPhoneLastFour":
+        ree = conn.execute("SELECT * FROM ABPhoneLastFour")
+        for x in ree:
+            print(x)
+    elif tablename == "ABPersonMultiValueDeletes":
+        ree = conn.execute("SELECT * FROM ABPersonMultiValueDeletes")
+        for x in ree:
+            print(x)
+    elif tablename == "FirstSortSectionCount":
+        ree = conn.execute("SELECT * FROM FirstSortSectionCount")
+        for x in ree:
+            print(x)
+    elif tablename == "LastSortSectionCount":
+        ree = conn.execute("SELECT * FROM LastSortSectionCount")
+        for x in ree:
+            print(x)
+    elif tablename == "FirstSortSectionCountTotal":
+        ree = conn.execute("SELECT * FROM FirstSortSectionCountTotal")
+        for x in ree:
+            print(x)
+    elif tablename == "LastSortSectionCountTotal":
+        ree = conn.execute("SELECT * FROM LastSortSectionCountTotal")
+        for x in ree:
+            print(x)
+    elif tablename == "ClientSequence":
+        ree = conn.execute("SELECT * FROM ClientSequence")
+        for x in ree:
+            print(x)
+    elif tablename == "ClientCursorConsumed":
+        ree = conn.execute("SELECT * FROM ClientCursorConsumed")
+        for x in ree:
+            print(x)
+    elif tablename == "ABPersonFullTextSearch":
+        ree = conn.execute("SELECT * FROM ABPersonFullTextSearch")
+        for x in ree:
+            print(x)
+    elif tablename == "ABPersonFullTextSearch_content":
+        ree = conn.execute("SELECT * FROM ABPersonFullTextSearch_content")
+        for x in ree:
+            print(x)
+    elif tablename == "ABPersonFullTextSearch_segments":
+        ree = conn.execute("SELECT * FROM ABPersonFullTextSearch_segments")
+        for x in ree:
+            print(x)
+    elif tablename == "ABPersonFullTextSearch_segdir":
+        ree = conn.execute("SELECT * FROM ABPersonFullTextSearch_segdir")
+        for x in ree:
+            print(x)
+    elif tablename == "ABPersonFullTextSearch_docsize":
+        ree = conn.execute("SELECT * FROM ABPersonFullTextSearch_docsize")
+        for x in ree:
+            print(x)
+    elif tablename == "ABPersonFullTextSearch_stat":
+        ree = conn.execute("SELECT * FROM ABPersonFullTextSearch_stat")
+        for x in ree:
+            print(x)
+    elif tablename == "history_items":
+        ree = conn.execute("SELECT * FROM history_items")
+        for x in ree:
+            print(x)
+    elif tablename == "sqlite_sequence":
+        ree = conn.execute("SELECT * FROM sqlite_sequence")
+        for x in ree:
+            print(x)
+    elif tablename == "history_visits":
+        ree = conn.execute("SELECT * FROM history_visits")
+        for x in ree:
+            print(x)
+    elif tablename == "history_tombstones":
+        ree = conn.execute("SELECT * FROM history_tombstones")
+        for x in ree:
+            print(x)
+    elif tablename == "metadata":
+        ree = conn.execute("SELECT * FROM metadata")
+        for x in ree:
+            print(x)
+    elif tablename == "history_client_versions":
+        ree = conn.execute("SELECT * FROM history_client_versions")
+        for x in ree:
+            print(x)
+    elif tablename == "history_event_listeners":
+        ree = conn.execute("SELECT * FROM history_event_listeners")
+        for x in ree:
+            print(x)
+    elif tablename == "history_events":
+        ree = conn.execute("SELECT * FROM history_events")
+        for x in ree:
+            print(x)
+    elif tablename == "_SqliteDatabaseProperties":
+        ree = conn.execute("SELECT * FROM _SqliteDatabaseProperties")
+        for x in ree:
+            print(x)
+    elif tablename == "voicemail":
+        ree = conn.execute("SELECT * FROM voicemail")
+        for x in ree:
+            print(x)
+    elif tablename == "_SqliteDatabaseProperties":
+        ree = conn.execute("SELECT * FROM _SqliteDatabaseProperties")
+        for x in ree:
+            print(x)
+    elif tablename == "deleted_messages":
+        ree = conn.execute("SELECT * FROM deleted_messages")
+        for x in ree:
+            print(x)
+    elif tablename == "sqlite_sequence":
+        ree = conn.execute("SELECT * FROM sqlite_sequence")
+        for x in ree:
+            print(x)
+    elif tablename == "chat_handle_join":
+        ree = conn.execute("SELECT * FROM chat_handle_join")
+        for x in ree:
+            print(x)
+    elif tablename == "sync_deleted_messages":
+        ree = conn.execute("SELECT * FROM sync_deleted_messages")
+        for x in ree:
+            print(x)
+    elif tablename == "message_processing_task":
+        ree = conn.execute("SELECT * FROM message_processing_task")
+        for x in ree:
+            print(x)
+    elif tablename == "handle":
+        ree = conn.execute("SELECT * FROM handle")
+        for x in ree:
+            print(x)
+    elif tablename == "sync_deleted_chats":
+        ree = conn.execute("SELECT * FROM sync_deleted_chats")
+        for x in ree:
+            print(x)
+    elif tablename == "message_attachment_join":
+        ree = conn.execute("SELECT * FROM message_attachment_join")
+        for x in ree:
+            print(x)
+    elif tablename == "sync_deleted_attachments":
+        ree = conn.execute("SELECT * FROM sync_deleted_attachments")
+        for x in ree:
+            print(x)
+    elif tablename == "kvtable":
+        ree = conn.execute("SELECT * FROM kvtable")
+        for x in ree:
+            print(x)
+    elif tablename == "chat_message_join":
+        ree = conn.execute("SELECT * FROM chat_message_join")
+        for x in ree:
+            print(x)
+    elif tablename == "message":
+        ree = conn.execute("SELECT * FROM message")
+        for x in ree:
+            print(x)
+    elif tablename == "chat":
+        ree = conn.execute("SELECT * FROM chat")
+        for x in ree:
+            print(x)
+    elif tablename == "attachment":
+        ree = conn.execute("SELECT * FROM attachment")
+        for x in ree:
+            print(x)
+    elif tablename == "sqlite_stat1":
+        ree = conn.execute("SELECT * FROM sqlite_stat1")
+        for x in ree:
+            print(x)
+    else:
+        print("Spelling Mistake")
+
+    # saveing the data that extract from table as txt to your machine
+    userInput6 = simpledialog.askstring(
+        "IPhone Backup", "Would you like save the data that printed on the screen(Yes or No:) ", parent=application_window)
+    if userInput6 == "Yes":
+        res3 = open("DataInfo.txt", "w")
+        res3.write(str(x))
+        res3.close()
+        print("saved successfully")
+    else:
+        print("No was selected")
+
+        # list if there image
+    userInput7 = simpledialog.askstring(
+        "IPhone Backup", "would like list an images Yes or No:", parent=application_window)
+    if userInput7 == "Yes":
+
+        # not user input i can make it as user input
+        conn = sqlite3.connect(
+            'C:\\Users\\peace_94\\Desktop\\folder\\Hashes\\Manifest.db')
+        c = conn.cursor()
+        res4 = conn.execute(
+            "SELECT fileID, relativePath from Files where relativePath like '%JPG%' OR relativePath like '.MOV%'")
+        for al4 in res4:
+            print(al4[0] + " ===> " + al4[1])
+        userInput2 = simpledialog.askstring(
+            "IPhone Backup", "Enter the hash:", parent=application_window)
+    else:
+        print("No was select")
+
+    # the user will type one of the hashes that print on the secreen to search about it
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    for root, dirs, files in os.walk(dir_path):
+        for file in files:
+            if file.endswith(str(userInput2)):
+                print(root+'/'+str(file))
+
+    # open image
+    userInput8 = simpledialog.askstring(
+        "IPhone Backup", "Enter your path that print on the screen end with hash:", parent=application_window)
+    image = Image.open(userInput8)
+    image.show()
+
+    # save the image to your machine
+    userInput9 = simpledialog.askstring(
+        "IPhone Backup", "Would you like to save the image Yes or No: ", parent=application_window)
+    if userInput9 == "Yes":
+        shutil.copyfile(userInput8, "imageinfo.jpg")
+        print("saved sescfully")
+    else:
+        print("No was select")
+    if simpledialog.askstring("IPhone Backup", 'Do you want to repeat(Yes/No)', parent=application_window) == 'No':
+        break

@@ -1,1 +1,5 @@
-# iOS_Backup_Recovery
+# Iphone-_Backup
+
+Project requirements: 
+- Installing python 
+- Download your iPhone backup
